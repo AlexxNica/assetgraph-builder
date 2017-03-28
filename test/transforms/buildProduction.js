@@ -105,6 +105,17 @@ describe('buildProduction', function () {
             });
     });
 
+    // Derived from a vanilla application output by create-react-app (1.3.0)
+    it('should support pages rendered by HtmlWebpackPlugin', function () {
+        return new AssetGraph({root: __dirname + '/../../testdata/transforms/buildProduction/htmlWebpackPlugin'})
+            .buildProduction({
+                // webpackConfigPath: __dirname + '/../../testdata/transforms/buildProduction/htmlWebpackPlugin/webpack.config.prod.js'
+            })
+            .queue(function (assetGraph) {
+                expect(assetGraph, 'to contain asset', { type: 'Html', url: /\/build\/index\.html$/, isInitial: true });
+            });
+    });
+
     it('should handle a test case with a JavaScriptStaticUrl pointing at an image to be processed', function () {
         return new AssetGraph({root: __dirname + '/../../testdata/transforms/buildProduction/JavaScriptStaticUrlWithProcessedImage/'})
             .loadAssets('index.html')
